@@ -3,6 +3,7 @@ package com.example.android.pets;
 import android.content.Context;
 import android.database.Cursor;
 import android.support.v4.widget.CursorAdapter;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,6 +36,7 @@ public class PetCursorAdapter extends CursorAdapter {
      * @param parent  The parent to which the new view is attached to
      * @return the newly created list item view.
      */
+
     @Override
     public View newView(Context context, Cursor cursor, ViewGroup parent) {
         return LayoutInflater.from(context).inflate(R.layout.list_item,parent,false);
@@ -57,9 +59,13 @@ public class PetCursorAdapter extends CursorAdapter {
 
         String name = cursor.getString(cursor.getColumnIndex(PetsContract.PetEntry.COLUMN_PET_NAME));
         String summary = cursor.getString(cursor.getColumnIndex(PetsContract.PetEntry.COLUMN_PET_BREED));
-
+        if(TextUtils.isEmpty(summary)){
+            tvSummary.setText(R.string.unknown_breed);
+        }else{
+            tvSummary.setText(summary);
+        }
         tvName.setText(name);
-        tvSummary.setText(summary);
+
     }
 
 }

@@ -254,12 +254,12 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
 
     @Override
     public void onLoadFinished(android.support.v4.content.Loader<Cursor> loader, Cursor data) {
-        data.moveToPosition(0);
-        mNameEditText.setText(data.getString(data.getColumnIndex(PetsContract.PetEntry.COLUMN_PET_NAME)));
-        mBreedEditText.setText(data.getString(data.getColumnIndex(PetsContract.PetEntry.COLUMN_PET_BREED)));
-        mWeightEditText.setText(data.getString(data.getColumnIndex(PetsContract.PetEntry.COLUMN_PET_WEIGHT)));
-        mGenderSpinner.setSelection(data.getInt(data.getColumnIndex(PetsContract.PetEntry.COLUMN_PET_GENDER)));
-
+        if(data.moveToFirst()) {
+            mNameEditText.setText(data.getString(data.getColumnIndex(PetsContract.PetEntry.COLUMN_PET_NAME)));
+            mBreedEditText.setText(data.getString(data.getColumnIndex(PetsContract.PetEntry.COLUMN_PET_BREED)));
+            mWeightEditText.setText(data.getString(data.getColumnIndex(PetsContract.PetEntry.COLUMN_PET_WEIGHT)));
+            mGenderSpinner.setSelection(data.getInt(data.getColumnIndex(PetsContract.PetEntry.COLUMN_PET_GENDER)));
+        }
     }
 
     @Override
@@ -357,10 +357,13 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
      * Perform the deletion of the pet in the database.
      */
     private void deletePet() {
-        Log.v("MAIN",data +"");
         if(data != null){
             int deleted = getContentResolver().delete(data, null, null);
-            Log.v("MAIN",deleted +"");
+            if(deleted == 0){
+                Toast.makeText(this,getResources().getString(R.string.editor_delete_pet_failed),Toast.LENGTH_SHORT).show();
+            }else {
+                Toast.makeText(this,getResources().getString(R.string.editor_delete_pet_successful),Toast.LENGTH_SHORT).show();
+            }
 
         }
 
