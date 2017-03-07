@@ -39,7 +39,7 @@ public class PetCursorAdapter extends CursorAdapter {
 
     @Override
     public View newView(Context context, Cursor cursor, ViewGroup parent) {
-        return LayoutInflater.from(context).inflate(R.layout.list_item,parent,false);
+        return LayoutInflater.from(context).inflate(R.layout.list_item, parent, false);
     }
 
     /**
@@ -59,13 +59,13 @@ public class PetCursorAdapter extends CursorAdapter {
 
         String name = cursor.getString(cursor.getColumnIndex(PetsContract.PetEntry.COLUMN_PET_NAME));
         String summary = cursor.getString(cursor.getColumnIndex(PetsContract.PetEntry.COLUMN_PET_BREED));
-        if(TextUtils.isEmpty(summary)){
+
+        if (TextUtils.isEmpty(summary)) {
             tvSummary.setText(R.string.unknown_breed);
-        }else{
+        } else {
             tvSummary.setText(summary);
         }
+
         tvName.setText(name);
-
     }
-
 }
